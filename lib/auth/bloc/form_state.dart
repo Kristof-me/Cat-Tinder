@@ -5,18 +5,18 @@ import 'package:equatable/equatable.dart';
 
 class AuthFormState extends Equatable {
   final String email;
-  final String? emailError;
+  final String emailError;
   final String password;
-  final String? passwordError;
+  final String passwordError;
   final bool showPassword;
   final bool isLoading;
   final bool isSuccessful;
 
   const AuthFormState({
     this.email = '',
-    this.emailError = null,
+    this.emailError = '',
     this.password = '',
-    this.passwordError = null,
+    this.passwordError = '',
     this.showPassword = false,
     this.isLoading = false,
     this.isSuccessful = false,
@@ -34,9 +34,9 @@ class AuthFormState extends Equatable {
   }) {
     return AuthFormState(
       email: email ?? this.email,
-      emailError: emailError,
+      emailError: emailError ?? this.emailError,
       password: password ?? this.password,
-      passwordError: passwordError,
+      passwordError: passwordError ?? this.passwordError,
       showPassword: showPassword ?? this.showPassword,
       isLoading: isLoading ?? this.isLoading,
       isSuccessful: isSuccessful ?? this.isSuccessful,
@@ -46,9 +46,9 @@ class AuthFormState extends Equatable {
   @override
   List<Object> get props => [
     email,
-    emailError ?? '',
+    emailError,
     password,
-    passwordError ?? '',
+    passwordError,
     showPassword,
     isLoading,
     isSuccessful,

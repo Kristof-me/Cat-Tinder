@@ -5,14 +5,14 @@ import 'package:cat_tinder/data_access/user_informaiton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(this._authRepository) : super(NoUser()) {
+  AuthBloc(this.authRepository) : super(NoUser()) {
     on<SignIn>((event, emit) async {
-      UserInformation user = await _authRepository.getCurrentUser().first;
+      UserInformation user = await authRepository.getCurrentUser().first;
       emit(user.uid != null ? SignedInUser(user) : AuthFailed());
     });
 
     on<SignUp>((event, emit) async {
-      UserInformation user = await _authRepository.getCurrentUser().first;
+      UserInformation user = await authRepository.getCurrentUser().first;
       emit(user.uid != null ? SignedInUser(user) : AuthFailed());
     });
 
@@ -23,5 +23,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<DeleteUser>((event, emit) => emit(NoUser()));
   }
 
-  final AuthenticationRepository _authRepository;
+  final AuthenticationRepository authRepository;
 }

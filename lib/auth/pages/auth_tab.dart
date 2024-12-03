@@ -73,7 +73,7 @@ class AuthTab extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password',
-                          errorText: state.passwordError,
+                          errorText: state.passwordError == '' ? null : state.passwordError,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -94,7 +94,7 @@ class AuthTab extends StatelessWidget {
                           ),
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (_) => state.passwordError,
+                        validator: (_) => state.passwordError == '' ? null : state.passwordError,
                       ),
                       spaceBetween,
 

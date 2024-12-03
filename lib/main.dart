@@ -22,12 +22,12 @@ void main() async {
 
   // For debugging
   Bloc.observer = AppBlocObserver();
-  final authRepository = FlutterAuthRepository();
+
+  final authBloc = AuthBloc(FlutterAuthRepository());
 
   MultiBlocProvider appWithProviders = MultiBlocProvider(
     providers: [
-      BlocProvider(create: (context) => AuthBloc(authRepository)),
-      BlocProvider(create: (context) => AuthFormBloc(authRepository)),
+      BlocProvider(create: (context) => authBloc),
       // TODO add blocs here
     ],
     child: MyApp(),
@@ -81,8 +81,16 @@ class MyApp extends StatelessWidget {
     ],
     redirect: (context, state) {
       final AuthState authState = context.read<AuthBloc>().state;
-      print(authState.toString() + ' auth state changed');
-      // TODO redirect to /login if user is not authenticated
+      const List<String> noAuthPaths = ['/login', '/signup'];
+      final String path = state.uri.toString();
+
+      if (authState is NoUser && !noAuthPaths.contains(path) && path != '/') {
+        return '/login';
+      }
+
+      if (authState is SignedInUser && noAuthPaths.contains(path)) {
+        return '/rate';
+      }
     }
   );
 

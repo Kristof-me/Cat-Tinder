@@ -11,15 +11,8 @@ class FirebaseAuthService {
 
   Future<UserCredential?> signUp(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-      }
-      
-      return userCredential;
+      return await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      // * email verification could come here but its out of scope for this project
     } on FirebaseAuthException catch (e) {
       throw FirebaseAuthException(code: e.code, message: e.message);
     }
