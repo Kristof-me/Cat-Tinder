@@ -49,6 +49,7 @@ class AuthTab extends StatelessWidget {
                       // the Email input field
                       TextFormField(
                         autofillHints: const [AutofillHints.email],
+                        initialValue: state.email,
                         onChanged: (value) => authContext.add(EmailChanged(value)),
                         decoration: InputDecoration(
                           labelText: 'Email',
@@ -60,8 +61,7 @@ class AuthTab extends StatelessWidget {
                         ),
                         style: Theme.of(context).textTheme.bodyLarge,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (_) =>
-                            state.emailError,
+                        validator: (_) => state.emailError,
                       ),
                       spaceBetween,
                       // the Password input field

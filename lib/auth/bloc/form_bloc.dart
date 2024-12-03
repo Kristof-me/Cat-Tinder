@@ -47,6 +47,7 @@ class AuthFormBloc extends Bloc<AuthFormEvent, AuthFormState> with FormValidatio
         
         if(user.isVerified == false) {
           emit(state.copyWith(isLoading: false, emailError: 'Please verify your email address by clicking the link sent to you'));
+          return;
         }
 
         emit(state.copyWith(isLoading: false, isSuccessful: true));
