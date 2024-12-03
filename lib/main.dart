@@ -1,6 +1,7 @@
 import 'package:cat_tinder/auth/auth_repository.dart';
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
+import 'package:cat_tinder/auth/bloc/form_bloc.dart';
 import 'package:cat_tinder/auth/pages/Login.dart';
 import 'package:cat_tinder/dev/AppBlocObserver.dart';
 import 'package:cat_tinder/firebase_options.dart';
@@ -21,10 +22,12 @@ void main() async {
 
   // For debugging
   Bloc.observer = AppBlocObserver();
+  final authRepository = FlutterAuthRepository();
 
   MultiBlocProvider appWithProviders = MultiBlocProvider(
     providers: [
-      BlocProvider(create: (context) => AuthBloc(FlutterAuthRepository())),
+      BlocProvider(create: (context) => AuthBloc(authRepository)),
+      BlocProvider(create: (context) => AuthFormBloc(authRepository)),
       // TODO add blocs here
     ],
     child: MyApp(),
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
   final _router = GoRouter(
     routes: [
       GoRoute(path: '/',  builder: (context, state) => HomePage()),
-      GoRoute(path: '/login', builder: (context, state) => LoginPage(openSignup: state.extra as bool)),
+      GoRoute(path: '/login', builder: (context, state) => LoginPage(openSignup: (state.extra ?? false) as bool)),
       GoRoute(path: '/signup', builder: (context, state) => LoginPage(openSignup: true)), // just in case for web users
       
       // TODO add route for: /settings
@@ -78,7 +81,7 @@ class MyApp extends StatelessWidget {
     ],
     redirect: (context, state) {
       final AuthState authState = context.read<AuthBloc>().state;
-      
+      print(authState.toString() + ' auth state changed');
       // TODO redirect to /login if user is not authenticated
     }
   );

@@ -1,20 +1,25 @@
+// ignore_for_file: avoid_init_to_null
+
 import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
 
-class AuthFormState {
-  final AutovalidateMode autovalidateMode;
+class AuthFormState extends Equatable {
   final String email;
-  final String emailError;
+  final String? emailError;
   final String password;
-  final String passwordError;
-  final bool passwordVisibility;
+  final String? passwordError;
+  final bool showPassword;
+  final bool isLoading;
+  final bool isSuccessful;
 
-  AuthFormState({
-    this.autovalidateMode = AutovalidateMode.disabled,
+  const AuthFormState({
     this.email = '',
-    this.emailError = '',
+    this.emailError = null,
     this.password = '',
-    this.passwordError = '',
-    this.passwordVisibility = false,
+    this.passwordError = null,
+    this.showPassword = false,
+    this.isLoading = false,
+    this.isSuccessful = false,
   });
 
   AuthFormState copyWith({
@@ -23,15 +28,29 @@ class AuthFormState {
     String? emailError,
     String? password,
     String? passwordError,
-    bool? passwordVisibility,
+    bool? showPassword,
+    bool? isLoading,
+    bool? isSuccessful,
   }) {
     return AuthFormState(
-      autovalidateMode: autovalidateMode ?? this.autovalidateMode,
       email: email ?? this.email,
-      emailError: emailError ?? this.emailError,
+      emailError: emailError,
       password: password ?? this.password,
-      passwordError: passwordError ?? this.passwordError,
-      passwordVisibility: passwordVisibility ?? this.passwordVisibility,
+      passwordError: passwordError,
+      showPassword: showPassword ?? this.showPassword,
+      isLoading: isLoading ?? this.isLoading,
+      isSuccessful: isSuccessful ?? this.isSuccessful,
     );
   }
+
+  @override
+  List<Object> get props => [
+    email,
+    emailError ?? '',
+    password,
+    passwordError ?? '',
+    showPassword,
+    isLoading,
+    isSuccessful,
+  ];
 }

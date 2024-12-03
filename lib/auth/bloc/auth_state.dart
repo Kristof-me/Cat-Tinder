@@ -1,4 +1,4 @@
-import 'package:cat_tinder/auth/auth_repository.dart';
+import 'package:cat_tinder/data_access/user_informaiton.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthState extends Equatable {
@@ -17,7 +17,7 @@ class ErrorForUser extends AuthState {
 
 class SignedInUser extends AuthState {
   SignedInUser(this.user);
-  final UserInfo user;
+  final UserInformation user;
 
   @override
   List<Object?> get props => [user];

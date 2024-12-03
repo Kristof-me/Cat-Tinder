@@ -1,5 +1,4 @@
-import 'package:cat_tinder/auth/pages/sign_in_tab.dart';
-import 'package:cat_tinder/auth/pages/sign_up_tab.dart';
+import 'package:cat_tinder/auth/pages/auth_tab.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +28,16 @@ class LoginPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            SignInTab(),
-            SignUpTab(),
+            AuthTab(
+              title: 'Welcome back!',
+              buttonText: 'Sign in',
+              isSignIn: true,
+            ),
+            AuthTab(
+              title: 'Sign up!',
+              buttonText: 'Sign up',
+              isSignIn: false,
+            ),
           ],
         ),
       ),
