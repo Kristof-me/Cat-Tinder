@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                         )
                     ],
                   ),
-                  Text('An app that lets you find your purrfect match to adopt!'),
+                  Text('An app to you find your purrfect match to adopt!'),
                   Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Wrap(
@@ -55,11 +55,12 @@ class HomePage extends StatelessWidget {
                             backgroundColor: Theme.of(context).colorScheme.primary,
                             foregroundColor: Theme.of(context).colorScheme.onPrimary,
                           ),
-                          onPressed: () => context.go('/login', extra: { 'isSignUp': false }),
+                          onPressed: () => context.go('/login', extra: false),
                           child: Text('Login'),
                         ),
                         ElevatedButton(
-                          onPressed: () => context.go('/login', extra: { 'isSignUp': true }),
+                          // the extra param says to open the signup page
+                          onPressed: () => context.go('/login', extra: true),
                           child: Text('Sign Up'),
                         ),
                       ],

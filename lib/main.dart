@@ -1,6 +1,12 @@
+import 'package:cat_tinder/auth/auth_repository.dart';
+import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
+import 'package:cat_tinder/auth/bloc/auth_state.dart';
+import 'package:cat_tinder/auth/pages/Login.dart';
 import 'package:cat_tinder/dev/AppBlocObserver.dart';
 import 'package:cat_tinder/firebase_options.dart';
 import 'package:cat_tinder/helper_pages/error.dart';
+import 'package:cat_tinder/helper_pages/home.dart';
+import 'package:cat_tinder/rate/pages/rate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +24,7 @@ void main() async {
 
   MultiBlocProvider appWithProviders = MultiBlocProvider(
     providers: [
+      BlocProvider(create: (context) => AuthBloc(FlutterAuthRepository())),
       // TODO add blocs here
     ],
     child: MyApp(),
@@ -32,20 +39,27 @@ class MyApp extends StatelessWidget {
   final _appTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
     useMaterial3: true,
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.deepPurple,
+      foregroundColor: Colors.white,
+    ),
+    tabBarTheme: TabBarTheme(
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.white70,
+      indicatorColor: Colors.orangeAccent,
+    ),
     // TODO add more theme options here
   );
 
   final _router = GoRouter(
     routes: [
-      GoRoute(
-        path: '/',  
-        builder: (context, state) => Scaffold(body: Text('Hello world'))
-      ),
+      GoRoute(path: '/',  builder: (context, state) => HomePage()),
+      GoRoute(path: '/login', builder: (context, state) => LoginPage(openSignup: state.extra as bool)),
+      GoRoute(path: '/signup', builder: (context, state) => LoginPage(openSignup: true)), // just in case for web users
       
-      // TODO add route for: /login-register
       // TODO add route for: /settings
       // TODO add route for: /chat
-      // TODO add route for: /rate
+      GoRoute(path: '/rate', builder: (context, state) => RatePage()),
       // TODO add route for: /likes
       // TODO add route for: /dislikes
 
@@ -62,15 +76,26 @@ class MyApp extends StatelessWidget {
         }
       ),
     ],
+    redirect: (context, state) {
+      final AuthState authState = context.read<AuthBloc>().state;
+      
+      // TODO redirect to /login if user is not authenticated
+    }
   );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Cat Tinder',
-      theme: _appTheme,
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        // To refresh the router and redirect if needed
+        _router.refresh();
+      },
+      child: MaterialApp.router(
+        title: 'Cat Tinder',
+        theme: _appTheme,
+        routerConfig: _router,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
