@@ -17,7 +17,10 @@ class AuthTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthFormBloc, AuthFormState>(builder: (context, state) {
-      final authContext = context.read<AuthFormBloc>();
+      final AuthFormBloc authContext = context.read<AuthFormBloc>();
+
+      final String? emailValidator = state.emailError == '' ? null : state.emailError;
+      final String? passwordValidator = state.passwordError == '' ? null : state.passwordError;
 
       if (state.isLoading) {
         return LoadingPage();
@@ -54,14 +57,14 @@ class AuthTab extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Email',
                           hintText: 'address@example.com',
-                          errorText: state.emailError,
+                          errorText: emailValidator,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
                         style: Theme.of(context).textTheme.bodyLarge,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (_) => state.emailError,
+                        validator: (_) => emailValidator,
                       ),
                       spaceBetween,
                       // the Password input field
@@ -73,7 +76,7 @@ class AuthTab extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter your password',
-                          errorText: state.passwordError == '' ? null : state.passwordError,
+                          errorText: passwordValidator,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
@@ -94,7 +97,7 @@ class AuthTab extends StatelessWidget {
                           ),
                         ),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (_) => state.passwordError == '' ? null : state.passwordError,
+                        validator: (_) => passwordValidator,
                       ),
                       spaceBetween,
 

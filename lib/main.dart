@@ -1,9 +1,8 @@
 import 'package:cat_tinder/auth/auth_repository.dart';
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
-import 'package:cat_tinder/auth/bloc/form_bloc.dart';
 import 'package:cat_tinder/auth/pages/Login.dart';
-import 'package:cat_tinder/dev/AppBlocObserver.dart';
+import 'package:cat_tinder/dev/app_bloc_observer.dart';
 import 'package:cat_tinder/firebase_options.dart';
 import 'package:cat_tinder/helper_pages/error.dart';
 import 'package:cat_tinder/helper_pages/home.dart';
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
     redirect: (context, state) {
       final AuthState authState = context.read<AuthBloc>().state;
       const List<String> noAuthPaths = ['/login', '/signup'];
-      final String path = state.uri.toString();
+      final String path = state.fullPath ?? state.uri.toString();
 
       if (authState is NoUser && !noAuthPaths.contains(path) && path != '/') {
         return '/login';
@@ -91,6 +90,8 @@ class MyApp extends StatelessWidget {
       if (authState is SignedInUser && noAuthPaths.contains(path)) {
         return '/rate';
       }
+
+      return path;
     }
   );
 
