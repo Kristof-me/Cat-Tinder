@@ -1,5 +1,6 @@
 import 'package:cat_tinder/auth/auth_repository.dart';
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
+import 'package:cat_tinder/auth/bloc/auth_event.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
 import 'package:cat_tinder/auth/pages/Login.dart';
 import 'package:cat_tinder/dev/app_bloc_observer.dart';
@@ -26,7 +27,7 @@ void main() async {
 
   MultiBlocProvider appWithProviders = MultiBlocProvider(
     providers: [
-      BlocProvider(create: (context) => authBloc),
+      BlocProvider.value(value: authBloc),
       // TODO add blocs here
     ],
     child: MyApp(),
@@ -97,9 +98,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = context.read<AuthBloc>();
+    if (authBloc.state is InitialState) {
+      authBloc.add(Initialize());
+    }
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        // To refresh the router and redirect if needed
+        // To refresh the router for redirect if needed
         _router.refresh();
       },
       child: MaterialApp.router(
