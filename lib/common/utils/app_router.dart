@@ -1,4 +1,5 @@
 import 'package:cat_tinder/common/pages/settings.dart';
+import 'package:cat_tinder/rate/pages/disliked.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
@@ -19,7 +20,7 @@ class AppRouter {
       
       GoRoute(path: '/rate', pageBuilder: (context, state) => _fadeTransitionPage(context, state, RatePage())),
       GoRoute(path: '/liked', pageBuilder: (context, state) => _fadeTransitionPage(context, state, LikedPage())),
-      // TODO add route for: /dislikes
+      GoRoute(path: '/disliked', pageBuilder: (context, state) => _fadeTransitionPage(context, state, DislikedPage())),
 
       GoRoute(path: '/settings', pageBuilder: (context, state) => _fadeTransitionPage(context, state, SettingsPage())),
       GoRoute(
