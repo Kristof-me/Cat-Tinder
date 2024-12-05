@@ -4,7 +4,6 @@ import 'package:cat_tinder/auth/bloc/form_state.dart';
 import 'package:cat_tinder/common/pages/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class AuthTab extends StatelessWidget {
   const AuthTab({super.key, required this.title, required this.buttonText, required this.isSignIn});
