@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cat_tinder/data_access/firebase_auth_service.dart';
 import 'package:cat_tinder/data_access/user_informaiton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +19,9 @@ class FlutterAuthRepository implements AuthenticationRepository {
 
   @override
   Stream<UserInformation> getCurrentUser() {
-    return _authService.currentUser().map((user) => UserInformation.fromUser(user!));
+    return _authService.currentUser()
+      .handleError((error) { log(error.toString()); })
+      .map((user) => UserInformation.fromUser(user));
   }
 
   @override

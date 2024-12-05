@@ -1,4 +1,4 @@
-import 'package:cat_tinder/rate/widgets/gradient_shader.dart';
+import 'package:cat_tinder/common/widgets/gradient_shader.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -55,7 +55,6 @@ class MenuNavigation extends StatelessWidget {
               gradient: gradient
             );
           }
-
           
           return getUnselectedButton(
             label: item['label'], 
@@ -64,7 +63,6 @@ class MenuNavigation extends StatelessWidget {
             showLabels: showLabels
           );
         }).toList(),
-        
       ),
     );
   }

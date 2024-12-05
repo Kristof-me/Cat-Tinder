@@ -27,9 +27,8 @@ class AuthTab extends StatelessWidget {
         return LoadingPage();
       }
 
-      if (state.isSuccessful) {
-        context.go('/rate');
-      }
+      // if state.isSuccessful the router should automatically navigate to the /rate page
+      // therefore manually navigating to the /rate page is not necessary
 
       return SingleChildScrollView(
         child: Padding(

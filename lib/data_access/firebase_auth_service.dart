@@ -3,9 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Stream<User?> currentUser() {
+  Stream<User> currentUser() {
     return auth.authStateChanges().map((User? user) {
-      return user;
+      if (user != null) {
+        return user;
+      } else {
+        throw FirebaseAuthException(code: 'user-not-found', message: 'No user found');
+      }
     });
   }
 
