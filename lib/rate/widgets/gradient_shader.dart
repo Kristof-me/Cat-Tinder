@@ -12,7 +12,7 @@ class GradientShader extends StatelessWidget {
       shaderCallback: (Rect bounds) {
         return gradient.createShader(bounds, textDirection: TextDirection.ltr);
       },
-      blendMode: BlendMode.srcATop,
+      blendMode: BlendMode.srcIn,
       child: child,
     );
   }

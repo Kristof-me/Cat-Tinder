@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
   );
 
   final LinearGradient gradient = LinearGradient(
-    colors: [Colors.deepPurple, Colors.red, Colors.orange], 
-    begin: Alignment.bottomCenter, end: Alignment.topCenter
+    colors: [ Colors.orange, Colors.red, Colors.deepPurple], 
+    begin: Alignment.topCenter, end: Alignment.bottomCenter
   );
 
   @override
