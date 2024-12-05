@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class CatInformation extends Equatable {
-  const CatInformation({required this.id, required this.name, required this.imageUrl});
+  const CatInformation({required this.id, required this.imageUrl, this.tags = const []});
 
   final String id;
-  final String name;
   final String imageUrl;
+  final List<String> tags;
 
   @override
-  List<Object?> get props => [id, name, imageUrl];
+  List<Object?> get props => [id, imageUrl, tags];
 }

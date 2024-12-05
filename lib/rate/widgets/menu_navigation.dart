@@ -109,7 +109,7 @@ class MenuNavigation extends StatelessWidget {
               Icon(
                 icon, 
                 size: isExpanded ? 32.0 : 25.0, 
-                weight: 700.0
+                weight: 600.0
               ),
               if(isExpanded && label != null) 
                 Text(

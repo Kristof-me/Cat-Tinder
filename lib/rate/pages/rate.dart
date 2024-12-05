@@ -15,19 +15,18 @@ class RatePage extends StatelessWidget {
 
   final Radius borderRadius = Radius.circular(16.0);
   final double iconSize = 42.0;
-  final TextStyle nameStyle = TextStyle(fontSize: 28, fontWeight: FontWeight.bold);
+  final TextStyle tagStyle = TextStyle(fontSize: 14, fontStyle: FontStyle.italic);
 
   final SwipeCubit swipeController = SwipeCubit();
 
   final List<CatInformation> cards = [
     CatInformation(
       id: '007',
-      name: 'Cute cat',
+      tags: ['Cute cat', 'Gray'],
       imageUrl: 'https://images.unsplash.com/photo-1518288774672-b94e808873ff?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNyYXp5JTIwY2F0fGVufDB8fDB8fHww'
     ),
     CatInformation(
       id: '008',
-      name: 'Cute cat 2',
       imageUrl: 'https://images.unsplash.com/photo-1518288774672-b94e808873ff?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNyYXp5JTIwY2F0fGVufDB8fDB8fHww'
     ),
   ];
@@ -86,15 +85,17 @@ class RatePage extends StatelessWidget {
                     ),
                   ),
                   // Name
-                  Container(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    constraints: BoxConstraints(minWidth: imageSize),
-                    child: Text(
-                      cat.name,
-                      textAlign: TextAlign.left, 
-                      style: nameStyle
-                    )
-                  ),
+                  if (cat.tags.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      constraints: BoxConstraints(minWidth: imageSize),
+                      child: Text(
+                        cat.tags.join(', '),
+                        textAlign: TextAlign.left, 
+                        softWrap: true,
+                        style: tagStyle
+                      )
+                    ),
                   // Buttons
                   Container(
                     padding: EdgeInsets.only(top: 12.0),
