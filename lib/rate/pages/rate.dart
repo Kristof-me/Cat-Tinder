@@ -106,6 +106,7 @@ class RatePage extends StatelessWidget {
                           onPressed: () {},
                           style: IconButton.styleFrom(
                             backgroundColor: Colors.pinkAccent.shade200,
+                            foregroundColor: Colors.white,
                             iconSize: iconSize
                           ),
                         ),
@@ -113,7 +114,8 @@ class RatePage extends StatelessWidget {
                           icon: Icon(Icons.close),
                           onPressed: () {},
                           style: IconButton.styleFrom(
-                            backgroundColor: Colors.grey.shade400,
+                            backgroundColor: Colors.grey.shade600,
+                            foregroundColor: Colors.white,
                             iconSize: iconSize
                           ),
                         ),

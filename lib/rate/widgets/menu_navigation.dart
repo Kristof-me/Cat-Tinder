@@ -6,7 +6,7 @@ class MenuNavigation extends StatelessWidget {
   MenuNavigation({super.key});
 
   final List<Map<String, dynamic>> items = [
-    { 'label': 'Chats',    'path': '/chats', 'icon': Icons.chat_bubble_outline },
+    // { 'label': 'Chats',    'path': '/chats', 'icon': Icons.chat_bubble_outline }, - not implemented
     { 'label': 'Liked',    'path': '/liked', 'icon': Icons.favorite_border_outlined },
     { 'label': 'Rate',     'path': '/rate',  'icon': Icons.star_outline },
     { 'label': 'Disliked', 'path': '/disliked', 'icon': Icons.close },
