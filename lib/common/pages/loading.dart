@@ -11,8 +11,10 @@ class LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = min(maxWidth, MediaQuery.of(context).size.width * columnScale);
-    double imageSize = min(width * imageScale, MediaQuery.of(context).size.height * imageScale);
+    final Size size = MediaQuery.of(context).size;
+    final double width = min(maxWidth, size.width * columnScale);
+    final double imageSize = min(width * imageScale, size.height * imageScale);
+
 
     return Scaffold(
       body: Center(

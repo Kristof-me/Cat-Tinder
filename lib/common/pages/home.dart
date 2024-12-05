@@ -1,8 +1,8 @@
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
+import 'package:cat_tinder/rate/widgets/gradient_shader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +13,10 @@ class HomePage extends StatelessWidget {
     fontWeight: FontWeight.bold,
   );
 
-  final colors = [Colors.deepPurple, Colors.red, Colors.orange];
+  final LinearGradient gradient = LinearGradient(
+    colors: [Colors.deepPurple, Colors.red, Colors.orange], 
+    begin: Alignment.bottomCenter, end: Alignment.topCenter
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +44,18 @@ class HomePage extends StatelessWidget {
                     alignment: WrapAlignment.spaceBetween,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      GradientText(
-                        'Cat Tinder',
-                        style: titleStyle,
-                        colors: colors,
+                      GradientShader(
+                        gradient: gradient,
+                        child: Text('Cat Tinder', style: titleStyle),
                       ),
                       if (width > 600)
                         Padding(
                           padding: const EdgeInsets.only(left: 110, top: 10),
                           child:
-                              Image.asset('assets/images/paw.png', width: 100),
+                              GradientShader(
+                                gradient: gradient,
+                                child: Image.asset('assets/images/paw.png', width: 100)
+                              ),
                         )
                     ],
                   ),

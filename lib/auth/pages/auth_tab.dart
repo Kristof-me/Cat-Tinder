@@ -1,9 +1,10 @@
 import 'package:cat_tinder/auth/bloc/form_bloc.dart';
 import 'package:cat_tinder/auth/bloc/form_event.dart';
 import 'package:cat_tinder/auth/bloc/form_state.dart';
-import 'package:cat_tinder/helper_pages/loading.dart';
+import 'package:cat_tinder/common/pages/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthTab extends StatelessWidget {
   const AuthTab({super.key, required this.title, required this.buttonText, required this.isSignIn});
@@ -27,7 +28,7 @@ class AuthTab extends StatelessWidget {
       }
 
       if (state.isSuccessful) {
-        // TODO navigate to the next page
+        context.go('/rate');
       }
 
       return SingleChildScrollView(
