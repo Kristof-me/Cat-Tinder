@@ -1,12 +1,12 @@
 import 'package:cat_tinder/auth/auth_repository.dart';
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
-import 'package:cat_tinder/auth/bloc/auth_event.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
 import 'package:cat_tinder/auth/pages/Login.dart';
 import 'package:cat_tinder/dev/app_bloc_observer.dart';
 import 'package:cat_tinder/firebase_options.dart';
 import 'package:cat_tinder/common/pages/error.dart';
 import 'package:cat_tinder/common/pages/home.dart';
+import 'package:cat_tinder/rate/pages/liked.dart';
 import 'package:cat_tinder/rate/pages/rate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +54,8 @@ class MyApp extends StatelessWidget {
     // TODO add more theme options here
   );
 
+  
+
   final _router = GoRouter(
     routes: [
       GoRoute(path: '/',  builder: (context, state) => HomePage()),
@@ -62,8 +64,8 @@ class MyApp extends StatelessWidget {
       
       // TODO add route for: /settings
       // TODO add route for: /chat
-      GoRoute(path: '/rate', builder: (context, state) => RatePage()),
-      // TODO add route for: /likes
+      GoRoute(path: '/rate', pageBuilder: (context, state) => fadeTransitionPage(context, state, RatePage())),
+      GoRoute(path: '/liked', pageBuilder: (context, state) => fadeTransitionPage(context, state, LikedPage())),
       // TODO add route for: /dislikes
 
       GoRoute(
@@ -98,11 +100,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = context.read<AuthBloc>();
-    if (authBloc.state is InitialState) {
-      authBloc.add(Initialize());
-    }
-
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         // To refresh the router for redirect if needed
@@ -114,6 +111,19 @@ class MyApp extends StatelessWidget {
         routerConfig: _router,
         debugShowCheckedModeBanner: false,
       ),
+    );
+  }
+
+  static CustomTransitionPage fadeTransitionPage(context, state, page) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+          child: child,
+        );
+      },
     );
   }
 }

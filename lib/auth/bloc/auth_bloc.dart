@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.authRepository) : super(InitialState()) {
-
     on<Initialize>((event, emit) async {
       UserInformation user = await authRepository.getCurrentUser().first; 
       emit(user.uid != null ? SignedInUser(user) : NoUser());
     });
+
+    // To initialize the state
+    add(Initialize());
 
     on<SignIn>((event, emit) async {
       UserInformation user = await authRepository.getCurrentUser().first;

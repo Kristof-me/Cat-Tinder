@@ -52,7 +52,8 @@ class MenuNavigation extends StatelessWidget {
             return getSelectedButton(
               label: item['label'], 
               icon: item['icon'],
-              gradient: gradient
+              gradient: gradient,
+              isExpanded: showLabels,
             );
           }
           
@@ -93,20 +94,24 @@ class MenuNavigation extends StatelessWidget {
     );
   }
 
-   Widget getSelectedButton({String? label, required IconData icon, required LinearGradient gradient}) {
+   Widget getSelectedButton({String? label, required IconData icon, required LinearGradient gradient, bool isExpanded = true}) {
     return GradientShader(
       gradient: gradient,
       child: OutlinedButton(
           onPressed: () {},
           style: OutlinedButton.styleFrom(
             shape: CircleBorder(),
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(isExpanded ? 20.0 : 14.0),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, size: 32.0, weight: 700.0),
-              if(label != null) 
+              Icon(
+                icon, 
+                size: isExpanded ? 32.0 : 25.0, 
+                weight: 700.0
+              ),
+              if(isExpanded && label != null) 
                 Text(
                   label, 
                   style: TextStyle(

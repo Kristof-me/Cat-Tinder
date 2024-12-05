@@ -36,7 +36,7 @@ class RatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double cardWidth = min(maxWidth, size.width * columnScale);
-    final double imageSize = min(cardWidth * imageScale, size.height * imageScale);
+    final double imageSize = min(cardWidth * imageScale, size.height * 0.52);
 
     return Scaffold(
       body: SafeArea(
