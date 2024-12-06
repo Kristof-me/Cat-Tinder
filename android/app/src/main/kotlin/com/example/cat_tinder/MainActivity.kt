@@ -1,4 +1,4 @@
-package com.example.cat_tinder
+package hu.bme.vik.flutter.cat.tinder
 
 import io.flutter.embedding.android.FlutterActivity
 
