@@ -6,6 +6,7 @@ import 'package:cat_tinder/common/bloc/theme_mode_cubit.dart';
 import 'package:cat_tinder/common/utils/app_theme.dart';
 import 'package:cat_tinder/dev/app_bloc_observer.dart';
 import 'package:cat_tinder/firebase_options.dart';
+import 'package:cat_tinder/rate/bloc/rate_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ void main() async {
     providers: [
       BlocProvider.value(value: authBloc),
       BlocProvider(create: (context) => ThemeModeCubit()),
-      // TODO add blocs here
+      BlocProvider(create: (context) => RateBloc(authBloc)),
     ],
     child: MyApp(
       appRouter: AppRouter(),

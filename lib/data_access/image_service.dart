@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 class ImageService {
   final dio = Dio();
   final int limit = 10;
-  final String base = 'https://cataas.com/api';
+  final String base = 'https://cataas.com';
 
   Future<List<CatInformation>> getImages() {
-    return dio.get('$base/cats?limit=$limit').then((response) {
+    return dio.get('$base/api/cats?limit=$limit').then((response) {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(response.data);
 
       List<CatInformation> cats = [];

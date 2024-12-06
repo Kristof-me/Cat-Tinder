@@ -6,16 +6,31 @@ abstract class RateEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadNextBatch extends RateEvent {}
+class FetchCats extends RateEvent {
+  FetchCats({required this.loadAutomatically});
+  final bool loadAutomatically;
 
-class LoadNextCat extends RateEvent {}
+  @override
+  List<Object?> get props => [loadAutomatically];
+}
 
-class RatedCat extends RateEvent {
-  RatedCat(this.cat, this.isLiked);
+class GetNextCat extends RateEvent {}
+
+class RateCat extends RateEvent {
+  RateCat(this.cat, this.isLiked);
 
   final CatInformation cat;
   final bool isLiked;
 
   @override
   List<Object?> get props => [cat, isLiked];
+}
+
+class LoadPersisted extends RateEvent {
+  LoadPersisted(this.isLiked);
+
+  final bool isLiked;
+
+  @override
+  List<Object?> get props => [isLiked];
 }
