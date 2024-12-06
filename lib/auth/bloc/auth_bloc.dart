@@ -26,7 +26,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthError>((event, emit) => emit(ErrorForUser(event.errorCode, event.errorMessage)));
 
-    on<SignOut>((event, emit) => emit(NoUser()));
+    on<SignOut>((event, emit) async { 
+      await authRepository.signOut();
+      emit(NoUser());
+    });
 
     on<DeleteUser>((event, emit) => emit(NoUser()));
   }
