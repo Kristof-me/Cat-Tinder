@@ -12,6 +12,7 @@ class RateState extends Equatable {
   
   final CatInformation? currentCat;
   final bool loading;
+  final int loadedLists;
 
   const RateState({
     required this.fetched,
@@ -21,6 +22,7 @@ class RateState extends Equatable {
     this.lastDislikedDoc,
     this.currentCat,
     required this.loading,
+    this.loadedLists = 0,
   });
 
   RateState copyWith({
@@ -44,11 +46,13 @@ class RateState extends Equatable {
   }
 
   RateState copyWithRate(CatInformation cat, bool isLiked) {
-    if(isLiked) {
-      return copyWith(liked: [...liked, cat]);
+    if(isLiked && !liked.any((c) => c.id == cat.id)) {
+      return copyWith(liked: ([...liked, cat]));
     }
-
-    return copyWith(disliked: [...disliked, cat]);
+    else if(!isLiked && !disliked.any((c) => c.id == cat.id)) {
+      return copyWith(disliked: _filterDuplicates([...disliked, cat]));
+    }
+    return this;
   }
 
   RateState copyWithPersistedRates(List<CatInformation> information, bool isLiked, DocumentSnapshot? lastDoc) {
@@ -58,19 +62,25 @@ class RateState extends Equatable {
 
     if (isLiked) {
       return copyWith(
-        liked: [...information, ...liked], 
+        liked: _filterDuplicates([...information, ...liked]), 
         lastLikedDoc: lastDoc,
+        loading: false,
       );
     } 
       
     return copyWith(
-      disliked: [...information, ...disliked],
+      disliked: _filterDuplicates([...information, ...disliked]),
       lastDislikedDoc: lastDoc,
+      loading: false,
     );
   }
   
   @override
   List<Object?> get props => [fetched, liked, disliked, currentCat, loading]; 
+
+  List<CatInformation> _filterDuplicates(List<CatInformation> list) {
+    return list.toSet().toList();
+  }
 }
 
 class InitialRateState extends RateState {

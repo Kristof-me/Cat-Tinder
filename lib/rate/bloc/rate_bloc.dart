@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
@@ -24,33 +25,47 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   String get _uid => (authState as SignedInUser).user.uid.toString();
 
   RateBloc(AuthBloc authBloc) : super(InitialRateState()) {
-    authState = authBloc.state;
-
-    authListener = authBloc.stream.listen((state) {
-      authState = state;
-    });
 
     on<FetchCats>((event, emit) => _fetchCats(event, emit));
     on<GetNextCat>((event, emit) => _getNextCat(event, emit));
     on<RateCat>((event, emit) => _rateCat(event, emit));
     on<LoadPersisted>((event, emit) => _loadPersisted(event, emit));
 
-    // To load the initial batch
-    add(FetchCats(loadAutomatically: true));
-    add(LoadPersisted(true));
-    add(LoadPersisted(false));
+    // The initialization process
+    on<InitializeRate>((event, emit) async {
+      emit(InitialRateState());
+      add(LoadPersisted(true));
+      add(LoadPersisted(false));
+      add(FetchCats(loadAutomatically: true));
+    });
+
+    authState = authBloc.state;
+
+    authListener = authBloc.stream.listen((state) {
+      authState = state;
+      if(state is SignedInUser) {
+        add(InitializeRate());
+      }
+    });
+
+    add(InitializeRate());
   }
 
   void _fetchCats(FetchCats event, Emitter<RateState> emit) async {
     if (!_isAuthorized) { return; }
     
     emit(state.copyWith(loading: true));
-
-    final cats = await _imageService.getImages();
-    emit(state.copyWith(fetched: cats, loading: false));
+    
+    // we select the indexes randomly (otherwise we would need locks and really complex logic)
+    Random random = Random();
+    int maxNumberOfImages = 1941;
+    final cats = await _imageService.getImages(skip: random.nextInt(maxNumberOfImages - 10));
 
     if (event.loadAutomatically) {
-      add(GetNextCat());
+      emit(state.copyWith(fetched: cats, loading: false, currentCat: cats.first));
+    }
+    else {
+      emit(state.copyWith(fetched: cats, loading: false));
     }
   }
 
@@ -64,6 +79,7 @@ class RateBloc extends Bloc<RateEvent, RateState> {
     } else {
       add(FetchCats(loadAutomatically: true));
     }
+    
   }
 
   void _rateCat(RateCat event, Emitter<RateState> emit) {
@@ -77,11 +93,15 @@ class RateBloc extends Bloc<RateEvent, RateState> {
   void _loadPersisted(LoadPersisted event, Emitter<RateState> emit) async {
     if (!_isAuthorized) { return; }
 
+    emit(state.copyWith(loading: true));
     final lastDoc = event.isLiked ? state.lastLikedDoc : state.lastDislikedDoc;
 
     final ratings = await _firestoreService.getRatings(_uid, event.isLiked, lastDoc);
 
-    if (ratings.docs.isEmpty) { return; }
+    if (ratings.docs.isEmpty) {
+        emit(state.copyWith(loading: false));
+       return; 
+      }
 
     DocumentSnapshot? lastDocLoaded = ratings.docs.last;
     List<CatInformation> cats = ratings.docs

@@ -6,8 +6,8 @@ class ImageService {
   final int limit = 10;
   final String base = 'https://cataas.com';
 
-  Future<List<CatInformation>> getImages() {
-    return dio.get('$base/api/cats?limit=$limit').then((response) {
+  Future<List<CatInformation>> getImages({int skip = 0}) {
+    return dio.get('$base/api/cats?limit=$limit&skip=${skip.toString()}').then((response) {
       List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(response.data);
 
       List<CatInformation> cats = [];

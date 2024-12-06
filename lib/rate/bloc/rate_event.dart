@@ -6,6 +6,8 @@ abstract class RateEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class InitializeRate extends RateEvent {}
+
 class FetchCats extends RateEvent {
   FetchCats({required this.loadAutomatically});
   final bool loadAutomatically;
