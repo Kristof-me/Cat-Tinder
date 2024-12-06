@@ -4,7 +4,6 @@ import 'package:cat_tinder/auth/bloc/auth_bloc.dart';
 import 'package:cat_tinder/auth/bloc/auth_state.dart';
 import 'package:cat_tinder/common/bloc/theme_mode_cubit.dart';
 import 'package:cat_tinder/common/utils/app_theme.dart';
-import 'package:cat_tinder/dev/app_bloc_observer.dart';
 import 'package:cat_tinder/firebase_options.dart';
 import 'package:cat_tinder/rate/bloc/rate_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +18,7 @@ void main() async {
   );
 
   // For debugging
-  Bloc.observer = AppBlocObserver();
+  // Bloc.observer = AppBlocObserver();
 
   // Blocs
   final authBloc = AuthBloc(FlutterAuthRepository());
